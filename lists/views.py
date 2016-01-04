@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -7,5 +8,11 @@ from django.shortcuts import render
 # Resolver404: {u'path': u'', u'tried': [[<RegexURLResolver <RegexURLPattern list> (admin:admin) ^admin/>]]}
 # we didn't define this route
 
-def home_page():
-    pass
+# AttributeError: 'NoneType' object has no attribute 'content'
+def home_page(request):
+    # first add request because needs param
+    # pass
+    # self.assertTrue(response.content.startswith('<html>'))
+    # AssertionError: False is not true
+
+    return HttpResponse('<html><title>To-Do lists</title></html>')

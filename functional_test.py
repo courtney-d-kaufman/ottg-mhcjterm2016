@@ -81,6 +81,8 @@ class NewVisitorTest(unittest.TestCase):
 # Satisfied, xe goes back to sleep
 
 #browser.quit()
+        # we're not done until we're actually done
+        self.fail('Finish the app!')
 
     #use the unittest main, and ignore all warnings
 if __name__ == '__main__':
