@@ -14,8 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.contrib import admin
+# from django.contrib import admin
+from lists import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
+    # views.home_page references the view
+    # regular expression r'^$', matches an empty string
+    # *** write tests and play around with why r'^$' works and not '/' or "" ***
+    url(r'^$', views.home_page, name='home'),
 ]
+
+# ViewDoesNotExist: 'None' is not a callable or a dot-notation path
+# We didn't give it a function, we gave it a non type

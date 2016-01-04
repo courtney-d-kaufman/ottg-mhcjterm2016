@@ -1,3 +1,5 @@
+# git log -- lists what you've done before
+
 # automatically run a web browser
 from selenium import webdriver
 # now make it a unit test
