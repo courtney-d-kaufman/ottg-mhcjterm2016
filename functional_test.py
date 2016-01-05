@@ -57,7 +57,8 @@ class NewVisitorTest(unittest.TestCase):
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
         # quick and dirty, but will later prove to be a bad decision
-            any(row.text == '1. Buy peacock feathers' for row in rows)
+            any(row.text == '1. Buy peacock feathers' for row in rows),
+            "New to-do item did not appear in the table."
         )
 
         self.assertIn('To-Do', self.browser.title)
