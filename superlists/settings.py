@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# This is where the template error happened, it's a Django issue you need to tell it where to look
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # tell it abou the app we created called lists
+    'lists',
 ]
 
 MIDDLEWARE_CLASSES = [

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+# from django.http import HttpResponse
 
 # Create your views here.
 
@@ -15,4 +15,9 @@ def home_page(request):
     # self.assertTrue(response.content.startswith('<html>'))
     # AssertionError: False is not true
 
-    return HttpResponse('<html><title>To-Do lists</title></html>')
+    # render -- takes a function and a path inside of templates and gives you the HTML back
+    # that file name is inside the templates folder
+    return render(request, 'home.html')
+    # TemplateDoesNotExist: home.html
+
+    # return HttpResponse('<html><title>To-Do lists</title></html>')
