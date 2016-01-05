@@ -1,7 +1,12 @@
 # git log -- lists what you've done before
 
+# hit tab twice to correctly indent everything we have below
+# shift tab to undo
+
 # automatically run a web browser
 from selenium import webdriver
+# see keys you can import
+from selenium.webdriver.common.keys import Keys
 # now make it a unit test
 import unittest
 
@@ -23,48 +28,44 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Edith has head about a cool new online to-do app.
+        # (Feel free to use non-cisgender pronouns, the book uses she)
         # Xe goes to check out its homepage
         self.browser.get('http://localhost:8000')
 
         # Xe notices the page title and header mention to-do lists.
-        # (Feel free to use non-cisgender pronouns, the book uses she)
-        # AssertionError: 'To-Do' not found in u'Problem loading page (Welcome to Django)'
+        self.assertIn('To-Do', self.browser.title)
+        # find the first H1 tag, assume it's the one you want and look for text To-Do
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', header_text)
+
+        # Xe is invited to enter a to-do item straight away
+        # New input box as well as instruction
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(
+        inputbox.get_attribute('placeholder'), 'Enter a to-do item'
+        )
+
+        # Xe types "Buy peacock feathers" into a text box
+        # (Edith's hobby is tying fly-fishing lures)
+        inputbox.send_keys('Buy peacock feathers')
+
+        # When xe hits enter, the page updates, and now the page lists
+        # "1. Buy peacock feathers" as an item in a to-do lists
+        inputbox.send_keys(Keys.ENTER)
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(
+        # quick and dirty, but will later prove to be a bad decision
+            any(row.text == '1. Buy peacock feathers' for row in rows)
+        )
+
         self.assertIn('To-Do', self.browser.title)
 
-
-    #def test_can_log_into_a_new_account(self):
-
-
-# hit tab twice to correctly indent everything we have below
-# shift tab to undo
-
-
-
-# browser = webdriver.Firefox()
-# port 8000, where it is going to be, start a server on port 8000
-# browser.get('http://localhost:8000')
-
-# write the assertion (test) before writing the program
-# we can't find Django because there isn't anything there in the first place
-# http://127.0.0.1:8000/
-
-# built in construct in python, does that string (Django)
-# show up anywhere in that variable (browser, reference to something that managaes firefox browser window)
-# .title (the label on the tab in web browser)
-# assert -- does this resolve to true, if so assert goes on its merry way, otherwise throws a new execption
-# assert 'Django' in browser.title
-
-#############################
-
+#def test_can_log_into_a_new_account(self):
 
 # assert 'To-Do' in browser.title
-# Xe is invited to enter a to-do item straight away
 
-# Xe types "Buy peacock feathers" into a text box
-# (Edith's hobby is tying fly-fishing lures)
-
-# When xe hits enter, the page updates, and now the page lists
-# "1. Buy peacock feathers" as an item in a to-do lists
 
 # There is still a text book inviting xyr to add another item.
 # Xe enters 'Use peacock feathers to make fly'
@@ -108,3 +109,18 @@ if __name__ == '__main__':
 # git commit -- save changes
 # .pyc is a compiled python file, binary, don't want in source control, they're generated
 # echo '*.pyc' >> .gitignore -- git creates a file to ignore .pyc files every time
+
+
+# browser = webdriver.Firefox()
+# port 8000, where it is going to be, start a server on port 8000
+# browser.get('http://localhost:8000')
+
+# write the assertion (test) before writing the program
+# we can't find Django because there isn't anything there in the first place
+# http://127.0.0.1:8000/
+
+# built in construct in python, does that string (Django)
+# show up anywhere in that variable (browser, reference to something that managaes firefox browser window)
+# .title (the label on the tab in web browser)
+# assert -- does this resolve to true, if so assert goes on its merry way, otherwise throws a new execption
+# assert 'Django' in browser.title
