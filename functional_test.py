@@ -53,13 +53,20 @@ class NewVisitorTest(unittest.TestCase):
         # "1. Buy peacock feathers" as an item in a to-do lists
         inputbox.send_keys(Keys.ENTER)
 
+        # import time
+        # time.sleep(15)
+
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
+        self.assertIn('1. Buy peacock feathers', [row.text for row in rows])
+        #self.assertTrue(
         # quick and dirty, but will later prove to be a bad decision
-            any(row.text == '1. Buy peacock feathers' for row in rows),
-            "New to-do item did not appear in the table."
-        )
+        # colon goes after string in Python
+            #any(row.text == '1. Buy peacock feathers' for row in rows),
+            #"New to-do item did not appear in the table. -- text was: \n%s" % (
+            #table.text,
+            #)
+        #)
 
         self.assertIn('To-Do', self.browser.title)
 

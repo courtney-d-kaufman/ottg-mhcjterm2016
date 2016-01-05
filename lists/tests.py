@@ -22,7 +22,7 @@ class HomePageTest(TestCase):
 
     # refactoring -- specifically editing code so we maintain the old
     # behavior, but uses different steps to do it
-    # it does the same thing but the code is cleaner and more efficient 
+    # it does the same thing but the code is cleaner and more efficient
     def test_home_page_returns_correct_html(self):
         # url to look for
         # first render we've done
@@ -40,6 +40,22 @@ class HomePageTest(TestCase):
         #self.assertTrue(response.content.endswith('</html>'))
         # self.assertTrue(response.content.strip().endswith('</html>'))
 
+    def test_home_page_can_save_a_POST_request(self):
+        request = HttpRequest()
+
+        request.method = 'POST'
+        request.POST['item_text'] = 'A new list item'
+
+        response = home_page(request)
+        # key = item_text,  value is a new list item (hashmaps)
+        self.assertIn('A new list item', response.content.decode())
+        expected_html = render_to_string(
+        'home.html', {'new_item_text': 'A new list item'})
+        
+        self.assertEqual(response.content.decode(), expected_html)
+
+
+    #python manage.py for unit tests, can only work on unit test or implementation at a time
 
 # Create your tests here.
 # write a test to fail, then write a test to pass kata from martial arts

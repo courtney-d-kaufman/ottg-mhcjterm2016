@@ -6,10 +6,19 @@
   </head>
   <body>
     <h1>Your To-Do list</h1>
-    <input id="id_new_item" placeholder="Enter a to-do item">
+    <!-- Send info back to htm asked for -->
+    <form method="POST">
+      <!-- get text field -->
+      <input id="id_new_item" name = "item_text" placeholder="Enter a to-do item">
+      <!-- needed if you use a form, if you're using the render func you're already doing the right thing -->
+      {% csrf_token %}
+    </form>
     <table id="id_list_table">
+      <tr><td>1. {{ new_item_text }}</td></tr>
     </table>
   </body>
 <!-- Close HTML tag -->
 </html>
 <!-- Ending with a new line is an issue -->
+
+<!-- Cross-Site Request Forger CSRF -->
