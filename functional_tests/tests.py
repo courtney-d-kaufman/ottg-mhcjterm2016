@@ -1,15 +1,15 @@
 # hit tab twice to correctly indent everything we have below
 # shift tab to undo
-
+from django.test import LiveServerTestCase
 # automatically run a web browser
 from selenium import webdriver
 # see keys you can import
 from selenium.webdriver.common.keys import Keys
 # now make it a unit test
-import unittest
+# import unittest
 
 # nice test oriented things, cleanly, efficiently, pragmatically
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     # self is equivalent to this
     def setUp(self):
@@ -43,7 +43,8 @@ class NewVisitorTest(unittest.TestCase):
         # Edith has head about a cool new online to-do app.
         # (Feel free to use non-cisgender pronouns, the book uses she)
         # Xe goes to check out its homepage
-        self.browser.get('http://localhost:8000')
+        #self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # Xe notices the page title and header mention to-do lists.
         self.assertIn('To-Do', self.browser.title)
@@ -75,7 +76,7 @@ class NewVisitorTest(unittest.TestCase):
         # The homepage updates again, and now shows both items on xyr list
         table = self.browser.find_element_by_id('id_list_table')
         self.check_for_row_in_list_table('1. Buy peacock feathers')
-        self.check_for_row_in_list_table('Use peacock feathers to make fly')
+        self.check_for_row_in_list_table('2. Use peacock feathers to make fly')
 
         # Edith wonders whether the site with remember xyr list. Then xe sees
         # That the site has generated a unique url for xyr -- there is some
@@ -92,5 +93,5 @@ class NewVisitorTest(unittest.TestCase):
         self.fail('Finish the app!')
 
     #use the unittest main, and ignore all warnings
-if __name__ == '__main__':
-    unittest.main()
+#if __name__ == '__main__':
+    #unittest.main()
