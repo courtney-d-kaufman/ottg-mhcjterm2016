@@ -23,7 +23,8 @@ urlpatterns = [
     # regular expression r'^$', matches an empty string
     # *** write tests and play around with why r'^$' works and not '/' or "" ***
     # url(r'^$', views.home_page, name='home'),
-    url("", views.home_page, name='home'),
+    url(r'^$', views.home_page, name='home'),
+    url(r'^/lists/the-only-list/$', views.view_list, name="view_list")
 ]
 
 # ViewDoesNotExist: 'None' is not a callable or a dot-notation path

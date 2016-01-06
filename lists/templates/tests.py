@@ -63,6 +63,11 @@ class HomePageTest(TestCase):
         request.method = 'POST'
         request.POST['item_text'] = 'A new list item'
 
+        response = home_page(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/lists/the-only-list/')
+
     def test_home_page_displays_all_items(self):
         Item.objects.create(text='itemy 1')
         Item.objects.create(text='itemy 2')

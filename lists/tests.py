@@ -40,11 +40,6 @@ class HomePageTest(TestCase):
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, 'A new list item')
 
-        # 302 -- go somewhere else, 404 not found
-        # https://http.cat/ cat photos that tell you what error code means
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
-
         # key = item_text,  value is a new list item (hashmaps)
         #self.assertIn('A new list item', response.content.decode())
         #expected_html = render_to_string(
@@ -52,27 +47,36 @@ class HomePageTest(TestCase):
 
         #self.assertEqual(response.content.decode(), expected_html)
 
-
         # normal get request, don't save any items
         # we're doing a unit of work, not a bunch of work
         # by simply changing the method name we made it a lot more clear what we're going to do
 
         # test is too long, 20 lines of code and testing multiple things
+
     def test_home_page_redirects_after_POST(self):
         request = HttpRequest()
         request.method = 'POST'
         request.POST['item_text'] = 'A new list item'
-
-    def test_home_page_displays_all_items(self):
-        Item.objects.create(text='itemy 1')
-        Item.objects.create(text='itemy 2')
-
-        request = HttpRequest()
+        # 302 -- go somewhere else, 404 not found
+        # https://http.cat/ cat photos that tell you what error code means
         response = home_page(request)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/lists/the-only-list/')
 
-        self.assertIn('itemy 1', response.content.decode())
-        self.assertIn('itemy 2', response.content.decode())
+class ListViewTest(TestCase):
 
+    def test_uses_list_template(self):
+        response = self.client.get('/lists/the-only-list/')
+        self.assertTemplateUsed(response, 'list.html')
+
+    def test_displays_all_items(self):
+        Item.objects.create(text='itemey 1')
+        Item.objects.create(text='itemey 2')
+
+        response = self.client.get('/lists/the-only-list/')
+
+        self.assertIn('itemey 1', response.content.decode())
+        self.assertIn('itemey 2', response.content.decode())
 
     def test_home_page_doesnt_save_on_GET_request(self):
         # same first line each time
