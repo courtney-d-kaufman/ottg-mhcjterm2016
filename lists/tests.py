@@ -6,6 +6,9 @@ from django.http import HttpRequest
 from lists.views import home_page
 from lists.models import Item
 
+# cmd / toggles commenting
+# grep -E 'class|def' lists/tests.py shows you classes and methods in a file
+
 class HomePageTest(TestCase):
 
     def test_root_url_resolves_to_home_page_view(self):
@@ -27,41 +30,32 @@ class HomePageTest(TestCase):
         expected_html = render_to_string('home.html')
         self.assertEqual(response.content.decode(), expected_html)
 
+class NewListTest(TestCase):
+
+
     # test is too long, 20 lines of code and testing multiple things
-    def test_home_page_can_save_a_POST_request(self):
-        request = HttpRequest()
+    def test_saving_a_POST_request(self):
+        self.client.post(
+        # no trailing slash, convention is that trailing slash is geting data,
+        # no trailing slash is sending data
+        '/lists/new',
+        data = {'item_text': 'A new list item'}
+        )
 
-        request.method = 'POST'
-        request.POST['item_text'] = 'A new list item'
-
-        response = home_page(request)
+        #response = home_page(request) -- never actually used, only to evaluate express which self.client.post does
 
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, 'A new list item')
 
-        # key = item_text,  value is a new list item (hashmaps)
-        #self.assertIn('A new list item', response.content.decode())
-        #expected_html = render_to_string(
-        #'home.html', {'new_item_text': 'A new list item'})
-
-        #self.assertEqual(response.content.decode(), expected_html)
-
-        # normal get request, don't save any items
-        # we're doing a unit of work, not a bunch of work
-        # by simply changing the method name we made it a lot more clear what we're going to do
-
-        # test is too long, 20 lines of code and testing multiple things
-
-    def test_home_page_redirects_after_POST(self):
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['item_text'] = 'A new list item'
-        # 302 -- go somewhere else, 404 not found
-        # https://http.cat/ cat photos that tell you what error code means
-        response = home_page(request)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/lists/the-only-list/')
+    def test_redirects_after_POST(self):
+        response = self.client.post(
+        '/lists/new',
+        data ={'item_text': 'A new lists item'}
+        )
+        self.assertRedirects(response, '/lists/the-only-list/')
+        #self.assertEqual(response.status_code, 302)
+        #self.assertEqual(response['location'], '/lists/the-only-list/')
 
 class ListViewTest(TestCase):
 
@@ -70,19 +64,28 @@ class ListViewTest(TestCase):
         self.assertTemplateUsed(response, 'list.html')
 
     def test_displays_all_items(self):
-        Item.objects.create(text='itemey 1')
-        Item.objects.create(text='itemey 2')
+        Item.objects.create(text='itemy 1')
+        Item.objects.create(text='itemy 2')
 
         response = self.client.get('/lists/the-only-list/')
 
-        self.assertIn('itemey 1', response.content.decode())
-        self.assertIn('itemey 2', response.content.decode())
+        self.assertIn('itemy 1', response.content.decode())
+        self.assertIn('itemy 2', response.content.decode())
 
-    def test_home_page_doesnt_save_on_GET_request(self):
+    #def test_home_page_doesnt_save_on_GET_request(self):
         # same first line each time
-        request = HttpRequest()
-        home_page(request)
-        self.assertEqual(Item.objects.count(), 0)
+        #request = HttpRequest()
+        #home_page(request)
+        #self.assertEqual(Item.objects.count(), 0)
+
+# class FooTest(TestCase):
+#     def test_foo_resolve(self):
+#         found = resolve('/foo/')
+#         self.assertEqual(found.func, foo)
+#
+#     def test_uses_foo_template(self):
+#         response = self.client.get('/foo/')
+#         self.assertTemplateUsed(response, 'foo.html')
 
 class ItemModelTest(TestCase):
     def test_saving_and_retrieving_items(self):
