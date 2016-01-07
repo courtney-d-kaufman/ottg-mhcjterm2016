@@ -26,8 +26,8 @@ urlpatterns = [
     url(r'^$', views.home_page, name='home'),
     #url(r'^foo/$', views.foo, name='foo'),
     url(r'^lists/new$', views.new_list, name='new_list'),
-    url(r'^lists/the-only-list/$', views.view_list, name="view_list"),
-
+    # (.+) defines the capture group
+    url(r'^lists/(.+)/$', views.view_list, name="view_list"),
 ]
 
 # ViewDoesNotExist: 'None' is not a callable or a dot-notation path
