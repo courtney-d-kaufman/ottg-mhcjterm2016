@@ -27,7 +27,11 @@ urlpatterns = [
     #url(r'^foo/$', views.foo, name='foo'),
     url(r'^lists/new$', views.new_list, name='new_list'),
     # (.+) defines the capture group
-    url(r'^lists/(.+)/$', views.view_list, name="view_list"),
+    #url(r'^lists/(.+)/$', views.view_list, name="view_list"),
+    # \d means only digits, still a capure group bc slashes
+    url(r'^lists/(\d)/$', views.view_list, name="view_list"),
+    url(r'^lists/(\d+)/add_item$', views.add_item, name='add_item'),
+
 ]
 
 # ViewDoesNotExist: 'None' is not a callable or a dot-notation path

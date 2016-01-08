@@ -15,10 +15,20 @@ def new_list(request):
     Item.objects.create(text=request.POST['item_text'], list=new_list)
     return redirect('/lists/%d/' % (new_list.id,))
 
+# from capture group in url
 def view_list(request, list_id):
     list_ = List.objects.get(id=list_id)
     items = Item.objects.filter(list=list_)
-    return render(request, 'list.html', { 'items': items, })
+    # python list of type item, list of all the item models where that item's list properties we're looking up
+    # items is a key, assert that { 'items': items, } has a property list set to current list, error
+    # means that list object not there
+    return render(request, 'list.html', { 'items': items, 'list': list_, })
+
+# list ID is captured
+def add_item(request, list_id):
+    list_ = List.objects.get(id=list_id)
+    Item.objects.create(text=request.POST['item_text'], list=list_)
+    return redirect('/lists/%d/' % (list_.id))
 
 #def foo(request):
     #return render(request, 'foo.html')

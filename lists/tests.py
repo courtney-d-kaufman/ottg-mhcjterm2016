@@ -31,9 +31,6 @@ class HomePageTest(TestCase):
         self.assertEqual(response.content.decode(), expected_html)
 
 class NewListTest(TestCase):
-
-
-    # test is too long, 20 lines of code and testing multiple things
     def test_saving_a_POST_request(self):
         self.client.post(
         # no trailing slash, convention is that trailing slash is geting data,
@@ -50,14 +47,41 @@ class NewListTest(TestCase):
 
     def test_redirects_after_POST(self):
         response = self.client.post(
-        '/lists/new',
-        data ={'item_text': 'A new lists item'}
+            '/lists/new',
+            data ={'item_text': 'A new lists item'}
         )
         # expects to be able to turn the redirect into an integer
         new_list = List.objects.first()
         self.assertRedirects(response, '/lists/%d/' % (new_list.id,))
         #self.assertEqual(response.status_code, 302)
         #self.assertEqual(response['location'], '/lists/the-only-list/')
+
+class NewItemTest(TestCase):
+
+    def test_can_save_a_POST_request_to_an_existing_list(self):
+        # other_list = List.objects.create()
+        correct_list = List.objects.create()
+
+        self.client.post(
+            '/lists/%d/add_item' % (correct_list.id,),
+            data={'item_text': 'A new item for an existing list'}
+        )
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new item for an existing list')
+        self.assertEqual(new_item.list, correct_list)
+
+    def test_redirects_to_list_view(self):
+        # other_list = List.objects.create()
+        correct_list = List.objects.create()
+
+        response = self.client.post(
+            '/lists/%d/add_item' % (correct_list.id,),
+            data={'item_text': 'A new item for an existing list'}
+        )
+
+        self.assertRedirects(response, '/lists/%d/' % (correct_list.id,))
 
 class ListViewTest(TestCase):
 
@@ -85,6 +109,12 @@ class ListViewTest(TestCase):
         self.assertNotContains(response, 'other item 1')
         self.assertNotContains(response, 'other item 2')
 
+    def test_passes_correct_list_to_template(self):
+        # other_list = List.objects.create()
+        # response keeps track of what data used for rendering
+        correct_list = List.objects.create()
+        response = self.client.get('/lists/%d/' % (correct_list.id,))
+        self.assertEqual(response.context['list'], correct_list)
 
     #def test_home_page_doesnt_save_on_GET_request(self):
         # same first line each time
