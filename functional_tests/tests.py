@@ -44,16 +44,16 @@ class NewVisitorTest(LiveServerTestCase):
         # (Feel free to use non-cisgender pronouns, the book uses she)
         # Xe goes to check out its homepage
         #self.browser.get('http://localhost:8000')
-        self.browser.get(self.live_server_url)
+        #self.brower.set_window_size(1024, 768)
+        #self.browser.get(self.live_server_url)
 
+        # Xe is invited to enter a to-do item straight away
+        # New input box as well as instruction
         # Xe notices the page title and header mention to-do lists.
         self.assertIn('To-Do', self.browser.title)
         # find the first H1 tag, assume it's the one you want and look for text To-Do
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('To-Do', header_text)
-
-        # Xe is invited to enter a to-do item straight away
-        # New input box as well as instruction
 
         #self.assertEqual(
         #inputbox.get_attribute('placeholder'), 'Enter a to-do item'
@@ -123,6 +123,30 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Satsified, they both go back to sleep.
 
-    #use the unittest main, and ignore all warnings
+    def test_layout_and_styling(self):
+        # Edith goes to the home page
+        self.browser.set_window_size(1024, 768)
+        self.browser.get(self.live_server_url)
+
+        # She notices the input box is nicely centered
+        self.check_input_box_is_centered()
+
+        # She starts a new list and sees the box is centered.
+        self.enter_a_new_item('testing')
+        self.check_input_box_is_centered()
+
+    def check_input_box_is_centered(self):
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + (inputbox.size['width'] / 2),
+            # accounts for rounding errors according to browser
+            512,
+            delta=5
+        )
+
+
+
+
+#use the unittest main, and ignore all warnings
 #if __name__ == '__main__':
     #unittest.main()
