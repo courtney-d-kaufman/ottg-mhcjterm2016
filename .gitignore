@@ -1,2 +1,4 @@
 db_sqlite3
 .pyc
+*.pyc
+db.sqlite3
