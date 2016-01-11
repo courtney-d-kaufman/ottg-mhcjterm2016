@@ -40,7 +40,6 @@ class NewListTest(TestCase):
         )
 
         #response = home_page(request) -- never actually used, only to evaluate express which self.client.post does
-
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, 'A new list item')
@@ -115,21 +114,6 @@ class ListViewTest(TestCase):
         correct_list = List.objects.create()
         response = self.client.get('/lists/%d/' % (correct_list.id,))
         self.assertEqual(response.context['list'], correct_list)
-
-    #def test_home_page_doesnt_save_on_GET_request(self):
-        # same first line each time
-        #request = HttpRequest()
-        #home_page(request)
-        #self.assertEqual(Item.objects.count(), 0)
-
-# class FooTest(TestCase):
-#     def test_foo_resolve(self):
-#         found = resolve('/foo/')
-#         self.assertEqual(found.func, foo)
-#
-#     def test_uses_foo_template(self):
-#         response = self.client.get('/foo/')
-#         self.assertTemplateUsed(response, 'foo.html')
 
 class ItemAndListModelsTest(TestCase):
     def test_saving_and_retrieving_items_in_list(self):

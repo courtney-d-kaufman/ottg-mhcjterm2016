@@ -1,6 +1,7 @@
 # hit tab twice to correctly indent everything we have below
 # shift tab to undo
-from django.test import LiveServerTestCase
+#from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 # automatically run a web browser
 from selenium import webdriver
 # see keys you can import
@@ -9,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 # import unittest
 
 # nice test oriented things, cleanly, efficiently, pragmatically
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     # self is equivalent to this
     def setUp(self):
