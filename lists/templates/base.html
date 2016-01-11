@@ -1,0 +1,20 @@
+<!--This is a tag -->
+<html>
+<!-- create a tree, To-Do list is inside of title -->
+  <head>
+    <title>To-Do lists</title>
+  </head>
+  <body>
+    <h1>{% block header_text %} {% endblock %}</h1>
+    <!-- Send info back to html asked for -->
+    <form method="POST" action="{% block form_action %}{% endblock %}">
+      <!-- get text field -->
+      <input id="id_new_item" name ="item_text" placeholder="Enter a to-do item">
+      <!-- Cross-Site Request Forger CSRF -->
+      {% csrf_token %}
+    </form>
+    {% block table %}
+    {% endblock %}
+  </body>
+</html>
+<!-- Close HTML tag -->

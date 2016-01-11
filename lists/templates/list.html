@@ -1,27 +1,12 @@
-<!--This is tag -->
-<html>
-<!-- create a tree, To-Do list is inside of title -->
-  <head>
-    <title>To-Do lists</title>
-  </head>
-  <body>
-    <h1>Your To-Do list</h1>
-    <!-- Send info back to htm asked for if not present sends back to url-->
-    <form method="POST" action="/lists/{{ list.id }}/add_item">
-      <!-- get text field -->
-      <input id="id_new_item" name = "item_text" placeholder="Enter a to-do item">
-      <!-- needed if you use a form, if you're using the render func you're already doing the right thing -->
-      <!-- Cross-Site Request Forger CSRF -->
-      {% csrf_token %}
-    </form>
-    <!-- for everything in list we're going to create a tr output row -->
+{% extends 'base.html' %}
+
+{% block header_text %}Your To-Do List{% endblock %}
+{% block form_action %}/lists/{{ list.id }}/add_item{% endblock %}
+
+  {% block table %}
     <table id="id_list_table">
-    <!-- reverse lookup -->
-      {% for item in list.item_set.all %}
-      <tr><td>{{ forloop.counter }}. {{ item.text }}</td></tr>
-      {% endfor %}
-    </table>
-  </body>
-<!-- Close HTML tag -->
-</html>
-<!-- Ending with a new line is an issue -->
+    {% for item in list.item_set.all %}
+      <tr><td>{{ forloop.counter }}. {{ item.text }} </td?></tr>
+    {% endfor %}
+  </table>
+{% endblock %}

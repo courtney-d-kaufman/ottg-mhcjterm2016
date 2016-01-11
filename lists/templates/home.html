@@ -1,21 +1,4 @@
-<!--This is tag -->
-<!-- Just static, nothing dynamic going on here -->
-<html>
-<!-- create a tree, To-Do list is inside of title -->
-  <head>
-    <title>To-Do lists</title>
-  </head>
-  <body>
-    <h1>Your To-Do list</h1>
-    <!-- Send info back to htm asked for -->
-    <form method="POST" action="/lists/new">
-      <!-- get text field -->
-      <input id="id_new_item" name = "item_text" placeholder="Enter a to-do item">
-      <!-- needed if you use a form, if you're using the render func you're already doing the right thing -->
-      <!-- Cross-Site Request Forger CSRF -->
-      {% csrf_token %}
-    </form>
-  </body>
-<!-- Close HTML tag -->
-</html>
-<!-- Ending with a new line is an issue -->
+{% extends 'base.html' %}
+
+{% block header_text %}Start a new To-Do List {% endblock %}
+{% block form_action %}/lists/ {{ list.id }}/new_item{% endblock %}
