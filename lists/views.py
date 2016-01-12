@@ -29,9 +29,3 @@ def add_item(request, list_id):
     list_ = List.objects.get(id=list_id)
     Item.objects.create(text=request.POST['item_text'], list=list_)
     return redirect('/lists/%d/' % (list_.id))
-
-#def foo(request):
-    #return render(request, 'foo.html')
-
-# commas at the end of the line, oxford comma equivalent because you don't have to
-# add it later

@@ -9,27 +9,6 @@ from lists.models import Item, List
 # cmd / toggles commenting
 # grep -E 'class|def' lists/tests.py shows you classes and methods in a file
 
-class HomePageTest(TestCase):
-
-    def test_root_url_resolves_to_home_page_view(self):
-        # matches everything after the domain name
-        # app.io/(123ABC) this portion
-        found = resolve('/')
-        self.assertEqual(found.func, home_page)
-        # ImportError: cannot import name home_page
-
-    # refactoring -- specifically editing code so we maintain the old
-    # behavior, but uses different steps to do it
-    # it does the same thing but the code is cleaner and more efficient
-    def test_home_page_returns_correct_html(self):
-        # url to look for
-        # first render we've done
-        request = HttpRequest()
-        # pass into the home page
-        response = home_page(request)
-        expected_html = render_to_string('home.html')
-        self.assertEqual(response.content.decode(), expected_html)
-
 class NewListTest(TestCase):
     def test_saving_a_POST_request(self):
         self.client.post(
@@ -114,35 +93,3 @@ class ListViewTest(TestCase):
         correct_list = List.objects.create()
         response = self.client.get('/lists/%d/' % (correct_list.id,))
         self.assertEqual(response.context['list'], correct_list)
-
-class ItemAndListModelsTest(TestCase):
-    def test_saving_and_retrieving_items_in_list(self):
-        new_list = List()
-        new_list.save()
-
-        # call constructor as function and returns instance of object, don't need new instance
-        first_item = Item()
-        first_item.text = 'The first (ever) list item'
-        # At this line, what is first_item.list ???
-        first_item.list = new_list
-        first_item.save()
-
-        second_item = Item()
-        second_item.text = 'Item the second'
-        second_item.list = new_list
-        second_item.save()
-
-        # retrieve saved items
-        saved_list = List.objects.first()
-        self.assertEqual(new_list, saved_list)
-
-        saved_items = Item.objects.all()
-        self.assertEqual(saved_items.count(), 2)
-
-        #check that items line up
-        first_saved_item = saved_items[0]
-        second_saved_item = saved_items[1]
-        self.assertEqual(first_saved_item.text, 'The first (ever) list item')
-        self.assertEqual(second_saved_item.text, 'Item the second')
-        self.assertEqual(first_saved_item.list, new_list)
-        self.assertEqual(second_saved_item.list, new_list)
