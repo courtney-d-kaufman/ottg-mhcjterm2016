@@ -30,7 +30,5 @@ class ItemValidationTest(TodoFunctionalTest):
 
         # And xe can correct it by filling some text in.
         self.enter_a_new_item('Make tea')
-        self.check_for_row_in_list_table('1: Buy milk')
-        self.check_for_row_in_list_table('2: Make tea')
-
-        self.fail('Finish the test!')
+        self.check_for_row_in_list_table('1. Buy milk')
+        self.check_for_row_in_list_table('2. Make tea')

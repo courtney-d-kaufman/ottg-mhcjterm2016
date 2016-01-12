@@ -10,6 +10,9 @@ from lists.models import Item, List
 # cmd / toggles commenting
 # grep -E 'class|def' lists/tests.py shows you classes and methods in a file
 
+class HomePageTest(TestCase):
+    def test_root_url
+
 class NewListTest(TestCase):
     def test_saving_a_POST_request(self):
         self.client.post(
@@ -94,12 +97,21 @@ class ListViewTest(TestCase):
         self.assertEqual(new_item.text, 'A new item for an existing list')
         self.assertEqual(new_item.list, correct_list)
 
-    # def test_redirects_to_list_view(self):
-    #     # other_list = List.objects.create()
-    #     correct_list = List.objects.create()
-    #
-    #     response = self.client.post(
-    #         '/lists/%d/' % (correct_list.id,),
-    #         data={'item_text': 'A new item for an existing list'}
-    #     )
-    #     self.assertRedirects(response, '/lists/%d/' % (correct_list.id,))
+    def validation_errors_stay_on_list_page(self):
+        current_list  = List.objects.create()
+        response = self.client.post(
+            '/lists/%d/' % (current_list.id,),
+            data={'item_text': ''}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'list.html')
+        expected_error = escape("You can't have an empty list item")
+        self.assertContains(response, expected_error)
+
+    def test_invalid_items_arent_saved(self):
+        current_list  = List.objects.create()
+        self.client.post(
+            '/lists/%d/' % (current_list.id),
+            data={'item_text': ''}
+        )
+        self.assertEqual(Item.objects.count(), 0)
