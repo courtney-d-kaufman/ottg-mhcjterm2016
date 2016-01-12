@@ -13,7 +13,7 @@ class ItemValidationTest(TodoFunctionalTest):
         # The home page refreshes, and there is an error message
         # saying that list items cannot be blank
         error = self.browser.find_element_by_css_selector('.has-error')
-        self.assertEqual(error.text, "You can't have an empty list item.")
+        self.assertEqual(error.text, "You can't have an empty list item")
 
         # Xe tries again with some text for the item,
         # which now works.
@@ -23,11 +23,10 @@ class ItemValidationTest(TodoFunctionalTest):
         # Edith perversely tries to enter a second blank item.
         self.enter_a_new_item('')
 
-
         # Xe receives a similar warning on the list page.
         self.check_for_row_in_list_table('1. Buy milk')
         error = self.browser.find_element_by_css_selector('.has-error')
-        self.assertEqual(error.text, "You can't have an empty list item.")
+        self.assertEqual(error.text, "You can't have an empty list item")
 
         # And xe can correct it by filling some text in.
         self.enter_a_new_item('Make tea')
