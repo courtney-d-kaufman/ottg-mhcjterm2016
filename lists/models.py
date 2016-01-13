@@ -17,6 +17,7 @@ class Item(models.Model):
         # syntax highlighter is not a complete grammar highlighter, so it highlights list bc keyword
         # Python knows we're not using it as this
     list = models.ForeignKey(List, default=None)
+    is_done = models.BooleanField(default=False)
 
 # run make migrations every time you change the database structure
 #programs don't like making decisions, they like programmers to make decisions
