@@ -11,7 +11,14 @@ from lists.models import Item, List
 # grep -E 'class|def' lists/tests.py shows you classes and methods in a file
 
 class HomePageTest(TestCase):
-    def test_root_url
+    def test_root_url_resolves_to_home_page_view(self):
+        found = resolve('/')
+
+    def test_home_page_returns_correct_html(self):
+        request = HttpRequest()
+        response = home_page(request)
+        expected_html = render_to_string('home.html')
+        self.assertEqual(response.content.decode(), expected_html)
 
 class NewListTest(TestCase):
     def test_saving_a_POST_request(self):
@@ -97,7 +104,7 @@ class ListViewTest(TestCase):
         self.assertEqual(new_item.text, 'A new item for an existing list')
         self.assertEqual(new_item.list, correct_list)
 
-    def validation_errors_stay_on_list_page(self):
+    def test_validation_errors_stay_on_list_page(self):
         current_list  = List.objects.create()
         response = self.client.post(
             '/lists/%d/' % (current_list.id,),
