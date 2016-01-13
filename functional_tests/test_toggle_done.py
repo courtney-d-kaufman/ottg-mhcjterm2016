@@ -3,7 +3,9 @@ from selenium import webdriver
 
 class ToggleDoneTest(TodoFunctionalTest):
     def toggle_todo_done(self, todo_text):
-        pass
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_element_by_tag_name('tr')
+        for row in rowsL 
 
     def check_marked_off(self, todo_text):
         pass
@@ -17,8 +19,8 @@ class ToggleDoneTest(TodoFunctionalTest):
         self.enter_a_new_item('Buy fishing line')
 
         checkbox_selector = 'input[type="checkbox"]'
-        checkboxes = self.find_elements_by_css_selector(checkbox_selector)
-        self.assertEqual(len(checkboxes, 2)
+        checkboxes = self.browser.find_elements_by_css_selector(checkbox_selector)
+        self.assertEqual(len(checkboxes), 2)
 
         # At the store, Edith puts feathers in xyr cart
         # and marks them done on the todo list.

@@ -31,7 +31,7 @@ class NewVisitorTest(TodoFunctionalTest):
         # as an item in a to-do lists
         edith_list_url = self.browser.current_url
         self.assertRegexpMatches(edith_list_url, '/lists/.+')
-        self.check_for_row_in_list_table('1. Buy peacock feathers')
+        self.check_for_row_in_list_table('Buy peacock feathers')
 
         # There is still a text book inviting xyr to add another item.
         # Xe enters 'Use peacock feathers to make fly'
@@ -40,8 +40,8 @@ class NewVisitorTest(TodoFunctionalTest):
 
         # The homepage updates again, and now shows both items on xyr list
         table = self.browser.find_element_by_id('id_list_table')
-        self.check_for_row_in_list_table('1. Buy peacock feathers')
-        self.check_for_row_in_list_table('2. Use peacock feathers to make fly')
+        self.check_for_row_in_list_table('Buy peacock feathers')
+        self.check_for_row_in_list_table('Use peacock feathers to make fly')
 
         # Edith wonders whether the site with remember xyr list. Then xe sees
         # That the site has generated a unique url for xyr -- there is some
