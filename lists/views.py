@@ -6,7 +6,7 @@ def home_page(request):
     #if request.method == 'POST':
         #Item.objects.create(text=request.POST['item_text'])
         #return redirect('/lists/the-only-list/')
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'todo_lists': List.objects.all()})
     # Python first return statement it hits it would evaluate
     # always add new item text to render method
     # pass all the items into the template and render them
