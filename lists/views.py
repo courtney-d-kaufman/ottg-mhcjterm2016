@@ -48,6 +48,10 @@ def view_list(request, list_id):
 def edit_list(request, list_id):
     list_ = List.objects.get(id=list_id)
 
+    for item in list_.item_set.all():
+        item.is_done = False
+        item.save()
+
     # we want a list here, not a single value
     item_ids = request.POST.getlist('mark_item_done')
     for item_id in item_ids:
