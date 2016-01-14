@@ -9,15 +9,18 @@
     {% for item in list.item_set.all %}
       <tr>
         <td>{{ forloop.counter }}.</td>
-        <td><input type="checkbox"
+        <td>
+          <input type="checkbox"
           name="mark_item_done"
-          value="{{item.id}}" />
+          value="{{item.id}}"/>
         </td>
-        <td>{{ item.text }} </td>
+        <td {% if item.is_done %} class="todo-done" {% endif %}>
+          {{ item.text }}
+        </td>
       </tr>
-    {% endfor %}
-  </table>
-  <button id="toggle_done" type="submit"> Mark Done</button>
-  {% csrf_token %}
-</form>
+      {% endfor %}
+    </table>
+    <button id="toggle_done" type="submit">Mark Done</button>
+    {% csrf_token %}
+  </form>
 {% endblock %}
