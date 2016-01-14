@@ -7,7 +7,7 @@ from django.db import models
 # Django is a library that uses Python syntax
 
 class List(models.Model):
-    pass
+    name = models.TextField(default='')
 
 class Item(models.Model):
         # pass

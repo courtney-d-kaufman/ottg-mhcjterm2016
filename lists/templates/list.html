@@ -2,7 +2,7 @@
 
 {% block header_text %}Your To-Do List{% endblock %}
 {% block form_action %}/lists/{{ list.id }}/{% endblock %}
-<!-- value="{{item.id}}"/> -->
+<!-- to implement edit, you could have an input box, and change toggle done to save or a bootstrap modal-->
   {% block table %}
   <form id="edit_items" method="POST" action="/lists/{{ list.id}}/items/">
     <table id="id_list_table" class="table">
