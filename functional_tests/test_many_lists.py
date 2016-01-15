@@ -2,7 +2,9 @@ from .base import TodoFunctionalTest
 
 class ManyListsTests(TodoFunctionalTest):
     def change_list_name(self, list_name):
-        pass
+        inputbox = self.browser.find_element_by_id('id_rename_list')
+        inputbox.clear()
+        inputbox.send_keys(list_name + '\n')
 
     def test_can_create_and_view_multiple_lists(self):
         # Edith comes to the home page, creates a new list,
@@ -21,7 +23,7 @@ class ManyListsTests(TodoFunctionalTest):
         self.check_for_row_in_list_table('Groceries')
 
         # Edith creates a new list for xyr Art History homework
-        self.browser.enter_a_new_item('Read Camille')
+        self.enter_a_new_item('Read Camille')
 
         # Edith opens the home page later & sees both lists
         self.browser.get(self.live_server_url)
@@ -29,7 +31,7 @@ class ManyListsTests(TodoFunctionalTest):
         self.check_for_row_in_list_table('Read Camille')
 
         # Edith goes to the grocery list and sees what xe needs to buy
-        row = find_table_row('Groceries')
-        row.find_elements_by_tag_name('a').click()
+        row = self.find_table_row('Groceries')
+        row.find_element_by_tag_name('a').click()
         self.check_for_row_in_list_table('Buy milk')
         self.check_for_row_in_list_table('Buy cheese')
