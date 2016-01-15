@@ -12,10 +12,11 @@ def home_page(request):
     # pass all the items into the template and render them
 
 def new_list(request):
-    new_list = List.objects.create()
+    item_text = request.POST['item_text']
+    new_list = List.objects.create(name=request.POST['item_text'])
     # new_list = List()
     # new_list.save()
-    item = Item.objects.create(text=request.POST['item_text'], list=new_list)
+    item = Item(text=item_text, list=new_list)
     try:
         item.full_clean()
         item.save()
