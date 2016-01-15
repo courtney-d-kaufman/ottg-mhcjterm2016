@@ -2,6 +2,8 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from lists.models import Item, List
 
+# Can add nav bar to the top of the page
+
 def home_page(request):
     #if request.method == 'POST':
         #Item.objects.create(text=request.POST['item_text'])
